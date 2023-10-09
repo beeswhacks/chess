@@ -1,6 +1,6 @@
 const getSquareColour = (index) => {
     const rowNumber = Math.floor(index / 8);
-    return index % 2 === rowNumber % 2 ? 'bg-slate-400' : 'bg-slate-500';
+    return index % 2 === rowNumber % 2 ? 'bg-zinc-300' : 'bg-zinc-500';
 };
 
 const Board = () => {
