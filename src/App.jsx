@@ -1,26 +1,27 @@
 import { useState } from 'react';
+import { Game } from 'js-chess-engine';
+import Board from './Board';
 import './App.css';
 
 function App() {
     const [count, setCount] = useState(0);
 
-    const getSquareColour = (index) => {
-        const rowNumber = Math.floor(index / 8);
-        return index % 2 === rowNumber % 2 ? 'bg-slate-400' : 'bg-slate-500';
-    }
+    const game = new Game();
 
     return (
         <>
-            <div className="aspect-square grid grid-cols-8 gap-0">
-                {Array(64)
-                    .fill()
-                    .map((_, index) => {
-                        return (
-                            <div key={index} className={`${getSquareColour(index)}`}>
-                            </div>
-                        );
-                    })}
-            </div>
+            <header className="text-2xl text-center m-3 p-3">
+                <h1>Chess</h1>
+            </header>
+            <main className='m-3 md:columns-2'>
+                <section className="md:break-after-column aspect-square grid grid-cols-8 gap-0">
+                    <Board />
+                </section>
+                <section>
+                    <h2 className='text-xl text-center m-3 p-3'>Options</h2>
+                    This is where the options will go
+                </section>
+            </main>
         </>
     );
 }
