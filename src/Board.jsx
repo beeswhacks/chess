@@ -3,14 +3,14 @@ import Square from "./Square";
 const getSquareMap = () => {
     const fileMap = new Map();
 
-    fileMap.set(0, 'a');
-    fileMap.set(1, 'b');
-    fileMap.set(2, 'c');
-    fileMap.set(3, 'd');
-    fileMap.set(4, 'e');
-    fileMap.set(5, 'f');
-    fileMap.set(6, 'g');
-    fileMap.set(7, 'h');
+    fileMap.set(0, 'A');
+    fileMap.set(1, 'B');
+    fileMap.set(2, 'C');
+    fileMap.set(3, 'D');
+    fileMap.set(4, 'E');
+    fileMap.set(5, 'F');
+    fileMap.set(6, 'G');
+    fileMap.set(7, 'H');
 
     const squareMap = new Map();
 
@@ -28,14 +28,26 @@ const isDarkSquare = (index) => {
     return index % 2 !== rowNumber % 2;
 };
 
-const Board = () => {
+const Board = ({ game }) => {
     const squareMap = getSquareMap();
 
-    return Array(64)
-        .fill()
-        .map((_, index) => {
-            return <Square key={index} isDarkSquare={isDarkSquare(index)} position={squareMap.get(index)} />;
-        });
+    return (
+        <div className="container rounded-md border-stone-300 border-4 md:break-after-column aspect-square grid grid-cols-8 gap-0">
+            {Array(64)
+                .fill()
+                .map((_, index) => {
+                    const position = squareMap.get(index);
+                    const piece = game.board.configuration.pieces[position];
+
+                    return <Square
+                        key={index} 
+                        isDarkSquare={isDarkSquare(index)} 
+                        position={position}
+                        piece={piece}
+                    />;
+                })}
+        </div>
+    );
 };
 
 export default Board;

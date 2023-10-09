@@ -10,12 +10,12 @@ function App() {
 
     return (
         <>
-            <header className="text-2xl text-center m-3 p-3">
+            <header className="text-3xl font-semibold text-center m-3 p-3">
                 <h1>Chess</h1>
             </header>
             <main className='m-3 md:columns-2'>
-                <section className="md:break-after-column aspect-square grid grid-cols-8 gap-0">
-                    <Board />
+                <section>
+                    <Board game={game} />
                 </section>
                 <section>
                     <h2 className='text-xl text-center m-3 p-3'>Options</h2>
