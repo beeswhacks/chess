@@ -1,7 +1,4 @@
-const getSquareColour = (index) => {
-    const rowNumber = Math.floor(index / 8);
-    return index % 2 === rowNumber % 2 ? 'bg-zinc-300' : 'bg-zinc-500';
-};
+import Square from "./Square";
 
 const getSquareMap = () => {
     const fileMap = new Map();
@@ -26,13 +23,18 @@ const getSquareMap = () => {
     return squareMap;
 }
 
+const isDarkSquare = (index) => {
+    const rowNumber = Math.floor(index / 8);
+    return index % 2 !== rowNumber % 2;
+};
+
 const Board = () => {
     const squareMap = getSquareMap();
 
     return Array(64)
         .fill()
         .map((_, index) => {
-            return <div key={index} className={`${getSquareColour(index)}`}></div>;
+            return <Square key={index} isDarkSquare={isDarkSquare(index)} position={squareMap.get(index)} />;
         });
 };
 
