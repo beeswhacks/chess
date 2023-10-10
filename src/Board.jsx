@@ -32,7 +32,7 @@ const Board = ({ game }) => {
     const squareMap = getSquareMap();
 
     return (
-        <div className="container rounded-md border-stone-500 border-4 md:break-after-column aspect-square grid grid-cols-8 gap-0">
+        <div className="container rounded-md border-neutral-500 shadow-xl border-4 md:break-after-column aspect-square grid grid-cols-8 gap-0">
             {Array(64)
                 .fill()
                 .map((_, index) => {
