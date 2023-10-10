@@ -19,8 +19,8 @@ const pieceMap = new Map([
 
 
 const Square = ({ isDarkSquare, position, piece }) => {
-    const lightColour = 'bg-emerald-100';
-    const darkColour = 'bg-blue-950';
+    const lightColour = 'bg-gray-400';
+    const darkColour = 'bg-gray-800';
     const colour = isDarkSquare ? darkColour : lightColour;
     const textColor = colour === darkColour ? 'text-white' : 'text-black';
 
