@@ -1,25 +1,43 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { DndContext } from '@dnd-kit/core';
 import Square from './Square';
+import { PlayerColourContext } from './App';
 
-const getSquareMap = () => {
-    const fileMap = new Map();
-
-    fileMap.set(0, 'A');
-    fileMap.set(1, 'B');
-    fileMap.set(2, 'C');
-    fileMap.set(3, 'D');
-    fileMap.set(4, 'E');
-    fileMap.set(5, 'F');
-    fileMap.set(6, 'G');
-    fileMap.set(7, 'H');
+const getSquareMap = (playerColour) => {
+    const fileMap = new Map([
+        [0, 'A'],
+        [1, 'B'],
+        [2, 'C'],
+        [3, 'D'],
+        [4, 'E'],
+        [5, 'F'],
+        [6, 'G'],
+        [7, 'H']
+    ]);
 
     const squareMap = new Map();
 
+    const getSquareCoordinates = (index) => {
+        const file = fileMap.get(index % 8);
+        const rank = 8 - Math.floor(index / 8);
+        return file + rank;
+    }
+
     for (let i = 0; i < 64; i++) {
-        const file = fileMap.get(i % 8);
-        const rank = 8 - Math.floor(i / 8);
-        squareMap.set(i, file + rank);
+        squareMap.set(i, getSquareCoordinates(i));
+    }
+
+    if (playerColour === 'black') {
+        const iterator = squareMap.entries();
+        const reversedMap = new Map();
+        let index = 63;
+
+        for (const [key, value] of iterator) {
+            reversedMap.set(index, value)
+            index--;
+        }
+
+        return reversedMap
     }
 
     return squareMap;
@@ -39,7 +57,8 @@ const handleDragEnd = (event, game, setPiecePositions) => {
 
 const Board = ({ game }) => {
     const [piecePositions, setPiecePositions] = useState({ ...game.board.configuration.pieces });
-    const squareMap = getSquareMap();
+    const playerColour = useContext(PlayerColourContext);
+    const squareMap = getSquareMap(playerColour);
 
     return (
         <DndContext onDragEnd={(event) => handleDragEnd(event, game, setPiecePositions)}>

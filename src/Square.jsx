@@ -31,8 +31,8 @@ const Square = ({ isDarkSquare, position, piece }) => {
         id: position,
     });
 
-    const lightSquareColor = 'bg-emerald-100';
-    const darkSquareColor = 'bg-emerald-800';
+    const lightSquareColor = 'bg-green-100';
+    const darkSquareColor = 'bg-green-800';
     const squareColor = isDarkSquare ? darkSquareColor : lightSquareColor;
     const squareColorWithDrag = isOver ? 'bg-neutral-700' : squareColor;
 
