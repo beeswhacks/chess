@@ -1,12 +1,12 @@
 import { createContext, useState } from 'react';
 import { Game } from 'js-chess-engine';
 import Board from './Board';
-import './App.css';
+import Options from './Options';
 
 export const PlayerColourContext = createContext('white');
 
 function App() {
-    const game = new Game();
+    const [game, setGame] = useState(new Game())
     const [playerColour, setPlayerColour] = useState('white');
 
     return (
@@ -20,8 +20,12 @@ function App() {
                         <Board game={game} />
                     </section>
                     <section>
-                        <h2 className="text-xl text-center m-3 p-3">Options</h2>
-                        This is where the options will go
+                        <Options 
+                            setPlayerColour={setPlayerColour}
+                            createNewGame={() => {
+                                setGame(new Game())
+                            }}
+                        />
                     </section>
                 </main>
             </PlayerColourContext.Provider>
