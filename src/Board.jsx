@@ -1,7 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
 import { DndContext } from '@dnd-kit/core';
 import Square from './Square';
-import { PlayerColourContext } from './App';
 
 const getSquareMap = (playerColour) => {
     const squareMap = new Map();
@@ -58,15 +56,8 @@ const handleDragEnd = (event, game, setPiecePositions) => {
     setPiecePositions({ ...game.board.configuration.pieces });
 };
 
-const Board = ({ game }) => {
-    // I think this logic needs to move up to the app level, so that it is called only when the new game is created
-    const [piecePositions, setPiecePositions] = useState({ ...game.board.configuration.pieces });
-    const playerColour = useContext(PlayerColourContext);
+const Board = ({ game, piecePositions, setPiecePositions, playerColour }) => {
     const squareMap = getSquareMap(playerColour);
-
-    useEffect(() => {
-        setPiecePositions({ ...game.board.configuration.pieces });
-    }, [game.board.configuration.pieces]);
 
     return (
         <DndContext onDragEnd={(event) => handleDragEnd(event, game, setPiecePositions)}>
