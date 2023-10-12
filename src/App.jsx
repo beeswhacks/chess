@@ -22,9 +22,7 @@ function App() {
                     <section>
                         <Options 
                             setPlayerColour={setPlayerColour}
-                            createNewGame={() => {
-                                setGame(new Game())
-                            }}
+                            createNewGame={() => setGame(new Game())}
                         />
                     </section>
                 </main>
