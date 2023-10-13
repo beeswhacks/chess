@@ -6,16 +6,24 @@ import Options from './Options';
 function App() {
     const [game, setGame] = useState(new Game());
     const [piecePositions, setPiecePositions] = useState({ ...game.board.configuration.pieces });
-    const [playerColourSelection, setPlayerColourSelection] = useState('white');
     const [playerColour, setPlayerColour] = useState('white');
+    const [computerLevel, setComputerLevel] = useState(2);
 
-    // when you update player colour, the piece positions shouldn't update immediately. only when the new game is started.
     useEffect(() => {
-        setPiecePositions({ ...game.board.configuration.pieces });
-    }, [game.board.configuration.pieces]);
+        // If player is playing as black, computer needs to make the first move
+        if (game.board.history.length === 0 && playerColour === 'black') {
+            setTimeout(() => {
+                game.aiMove(computerLevel);
+                setPiecePositions({ ...game.board.configuration.pieces });
+            }, 1000);
+        }
 
-    const handleNewGame = () => {
-        setPlayerColour(playerColourSelection);
+        setPiecePositions({ ...game.board.configuration.pieces });
+    }, [game]);
+
+    const handleNewGame = (playerColour, computerLevel) => {
+        setPlayerColour(playerColour);
+        setComputerLevel(computerLevel);
         setGame(new Game());
     };
 
@@ -34,11 +42,7 @@ function App() {
                     />
                 </section>
                 <section>
-                    <Options
-                        playerColourSelection={playerColourSelection}
-                        setPlayerColourSelection={setPlayerColourSelection}
-                        createNewGame={handleNewGame}
-                    />
+                    <Options createNewGame={handleNewGame} />
                 </section>
             </main>
         </>

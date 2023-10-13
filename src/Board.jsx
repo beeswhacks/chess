@@ -50,10 +50,17 @@ const isDarkSquare = (index) => {
 };
 
 const handleDragEnd = (event, game, setPiecePositions) => {
+    // Handle player move
     const fromSquare = event.active.id.split('-').at(-1);
     const toSquare = event.over.id;
     game.move(fromSquare, toSquare);
     setPiecePositions({ ...game.board.configuration.pieces });
+
+    // Make computer move. Add delay to make it feel more realistic.
+    setTimeout(() => {
+        game.aiMove(0);
+        setPiecePositions({ ...game.board.configuration.pieces });
+    }, 1000);
 };
 
 const Board = ({ game, piecePositions, setPiecePositions, playerColour }) => {
