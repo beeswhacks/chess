@@ -49,26 +49,30 @@ const isDarkSquare = (index) => {
     return index % 2 !== rowNumber % 2;
 };
 
-const handleDragEnd = (event, game, setPiecePositions) => {
+const handleDragEnd = (game, event, updateGame, computerLevel) => {
     // Handle player move
     const fromSquare = event.active.id.split('-').at(-1);
     const toSquare = event.over.id;
     game.move(fromSquare, toSquare);
-    setPiecePositions({ ...game.board.configuration.pieces });
+    updateGame();
 
     // Make computer move. Add delay to make it feel more realistic.
     setTimeout(() => {
-        game.aiMove(0);
-        setPiecePositions({ ...game.board.configuration.pieces });
+        game.aiMove(computerLevel);
+        updateGame();
     }, 1000);
 };
 
-const Board = ({ game, piecePositions, setPiecePositions, playerColour }) => {
+const Board = ({ game, piecePositions, playerColour, computerLevel, updateGame, checkMate }) => {
     const squareMap = getSquareMap(playerColour);
 
+    const borderColor = checkMate
+        ? 'border-amber-600'
+        : 'border-neutral-500';
+
     return (
-        <DndContext onDragEnd={(event) => handleDragEnd(event, game, setPiecePositions)}>
-            <div className="container rounded-md border-neutral-500 shadow-xl border-4 md:break-after-column aspect-square grid grid-cols-8 gap-0">
+        <DndContext onDragEnd={(event) => handleDragEnd(game, event, updateGame, computerLevel)}>
+            <div className={`container rounded-md ${borderColor} shadow-xl border-4 md:break-after-column aspect-square grid grid-cols-8 gap-0`}>
                 {Array(64)
                     .fill()
                     .map((_, index) => {
