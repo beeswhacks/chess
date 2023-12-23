@@ -3,55 +3,7 @@ import { status, move, aiMove, Game } from 'js-chess-engine';
 import Board from './Board';
 import Options from './Options';
 
-let game = new Game({
-    "fullMove": 3,
-    "halfMove": 1,
-    "enPassant": null,
-    "isFinished": false,
-    "checkMate": false,
-    "check": false,
-    "turn": "white",
-    "pieces": {
-        "E1": "K",
-        "D1": "Q",
-        "A1": "R",
-        "H1": "R",
-        "C1": "B",
-        "F1": "B",
-        "B1": "N",
-        "G1": "N",
-        "A2": "P",
-        "B2": "P",
-        "C2": "P",
-        "D2": "P",
-        "E2": "P",
-        "H2": "P",
-        "E8": "k",
-        "A8": "r",
-        "H8": "r",
-        "C8": "b",
-        "F8": "b",
-        "B8": "n",
-        "G8": "n",
-        "A7": "p",
-        "B7": "p",
-        "C7": "p",
-        "D7": "p",
-        "F7": "p",
-        "G7": "p",
-        "H7": "p",
-        "F3": "P",
-        "E5": "p",
-        "G4": "P",
-        "D8": "q"
-    },
-    "castling": {
-        "whiteShort": true,
-        "blackShort": true,
-        "whiteLong": true,
-        "blackLong": true
-    }
-});
+let game = new Game();
 
 function App() {
     const [piecePositions, setPiecePositions] = useState({ ...game.board.configuration.pieces });
