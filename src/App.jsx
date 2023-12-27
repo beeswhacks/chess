@@ -37,7 +37,7 @@ function App() {
             <header className="text-3xl font-semibold text-center m-3 p-3">
                 <h1>Chess</h1>
             </header>
-            <main className="m-3 mx-auto md:columns-2 max-w-7xl">
+            <main className="m-3 md:columns-2 max-w-7xl">
                 <section>
                     <Board
                         game={game}

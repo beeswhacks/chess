@@ -92,7 +92,7 @@ const Board = ({ game, piecePositions, playerColour, computerLevel, updateGame, 
 
     return (
         <div
-            className={`container rounded-md ${borderColor} shadow-xl border-4 md:break-after-column aspect-square grid grid-cols-8 gap-0`}
+            className={`container mx-auto rounded-md ${borderColor} shadow-xl border-4 md:break-after-column aspect-square grid grid-cols-8 gap-0`}
         >
             {Array(64)
                 .fill()
