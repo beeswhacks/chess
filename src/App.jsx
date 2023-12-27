@@ -12,7 +12,7 @@ function App() {
     const [computerLevel, setComputerLevel] = useState(2);
 
     function updateGame() {
-        // Calling moves() to re-evaluate checkMate
+        // Calling moves() evaluates checkMate
         game.moves();
         setPiecePositions({...game.board.configuration.pieces});
         setCheckMate(game.board.configuration.checkMate.valueOf());
