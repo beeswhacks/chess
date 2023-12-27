@@ -16,11 +16,11 @@ const pieceMap = new Map([
     ['K', K],
 ]);
 
-const Square = ({ isDarkSquare, position, piece, onClick, clickedSquare }) => {
+const Square = ({ isDarkSquare, position, piece, onClick, highlightedSquare }) => {
     const lightSquareColor = 'bg-green-100';
     const darkSquareColor = 'bg-green-800';
     let squareColor = isDarkSquare ? darkSquareColor : lightSquareColor;
-    if (clickedSquare === position) {
+    if (highlightedSquare === position) {
         squareColor = 'bg-neutral-700';
     }
 

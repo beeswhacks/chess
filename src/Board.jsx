@@ -51,6 +51,7 @@ const isDarkSquare = (index) => {
 
 const Board = ({ game, piecePositions, playerColour, computerLevel, updateGame, checkMate }) => {
     const [clickedSquare, setClickedSquare] = useState(null);
+    const [lastMove, setLastMove] = useState(null);
     const squareMap = getSquareMap(playerColour);
 
     const borderColor = checkMate ? 'border-amber-600' : 'border-neutral-500';
@@ -80,11 +81,13 @@ const Board = ({ game, piecePositions, playerColour, computerLevel, updateGame, 
             // must be second move, so continue to make the move
             game.move(clickedSquare, position);
             updateGame();
+            setLastMove(position);
             setClickedSquare(null);
 
             // Make computer move. Add delay to make it feel more realistic.
             setTimeout(() => {
-                game.aiMove(computerLevel);
+                const computerMove = game.aiMove(computerLevel);
+                setLastMove(Object.values(computerMove)[0])
                 updateGame();
             }, 1000);
         }
@@ -107,7 +110,7 @@ const Board = ({ game, piecePositions, playerColour, computerLevel, updateGame, 
                             position={position}
                             piece={piece}
                             onClick={generateClickHandler(position)}
-                            clickedSquare={clickedSquare}
+                            highlightedSquare={clickedSquare || lastMove}
                         />
                     );
                 })}
