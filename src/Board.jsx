@@ -1,4 +1,4 @@
-import { DndContext } from '@dnd-kit/core';
+import { useState } from 'react';
 import Square from './Square';
 
 const getSquareMap = (playerColour) => {
@@ -49,47 +49,69 @@ const isDarkSquare = (index) => {
     return index % 2 !== rowNumber % 2;
 };
 
-const handleDragEnd = (game, event, updateGame, computerLevel) => {
-    // Handle player move
-    const fromSquare = event.active.id.split('-').at(-1);
-    const toSquare = event.over.id;
-    game.move(fromSquare, toSquare);
-    updateGame();
-
-    // Make computer move. Add delay to make it feel more realistic.
-    setTimeout(() => {
-        game.aiMove(computerLevel);
-        updateGame();
-    }, 1000);
-};
-
 const Board = ({ game, piecePositions, playerColour, computerLevel, updateGame, checkMate }) => {
+    const [clickedSquare, setClickedSquare] = useState(null);
     const squareMap = getSquareMap(playerColour);
 
-    const borderColor = checkMate
-        ? 'border-amber-600'
-        : 'border-neutral-500';
+    const borderColor = checkMate ? 'border-amber-600' : 'border-neutral-500';
+
+    const generateClickHandler = (position) => () => {
+        let pieceColour;
+        let pieceBelongsToPlayer;
+        const piece = piecePositions[position];
+        const isPlayersTurn = game.board.configuration.turn === playerColour;
+
+        if (!isPlayersTurn) {
+            return;
+        }
+
+        if (piece) {
+            pieceColour = piece.toUpperCase() === piece ? 'white' : 'black';
+            pieceBelongsToPlayer = pieceColour === playerColour;
+        }
+
+        // must be first move if no clicked square stored
+        if (!clickedSquare) {
+            if (pieceBelongsToPlayer) {
+                setClickedSquare(position);
+            }
+            return;
+        } else {
+            // must be second move, so continue to make the move
+            game.move(clickedSquare, position);
+            updateGame();
+            setClickedSquare(null);
+
+            // Make computer move. Add delay to make it feel more realistic.
+            setTimeout(() => {
+                game.aiMove(computerLevel);
+                updateGame();
+            }, 1000);
+        }
+    };
 
     return (
-        <DndContext onDragEnd={(event) => handleDragEnd(game, event, updateGame, computerLevel)}>
-            <div className={`container rounded-md ${borderColor} shadow-xl border-4 md:break-after-column aspect-square grid grid-cols-8 gap-0`}>
-                {Array(64)
-                    .fill()
-                    .map((_, index) => {
-                        const position = squareMap.get(index);
-                        const piece = piecePositions[position];
+        <div
+            className={`container rounded-md ${borderColor} shadow-xl border-4 md:break-after-column aspect-square grid grid-cols-8 gap-0`}
+        >
+            {Array(64)
+                .fill()
+                .map((_, index) => {
+                    const position = squareMap.get(index);
+                    const piece = piecePositions[position];
 
-                        return (
-                            <Square
-                                key={index}
-                                isDarkSquare={isDarkSquare(index)}
-                                position={position}
-                                piece={piece}
-                            />
-                        );
-                    })}
-            </div>
-        </DndContext>
+                    return (
+                        <Square
+                            key={index}
+                            isDarkSquare={isDarkSquare(index)}
+                            position={position}
+                            piece={piece}
+                            onClick={generateClickHandler(position)}
+                            clickedSquare={clickedSquare}
+                        />
+                    );
+                })}
+        </div>
     );
 };
 
